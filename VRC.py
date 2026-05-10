@@ -1,22 +1,28 @@
-# Take binary data from user
+# Sender Side
+
 data = input("Enter binary data: ")
 
-# Count number of 1's
 ones = data.count('1')
 
-# Generate Even Parity Bit
-parity = '0' if ones % 2 == 0 else '1'
+# Even Parity
+if ones % 2 == 0:
+    parity = '0'
+else:
+    parity = '1'
 
-# Create codeword
+# Codeword
 codeword = data + parity
 
-# Display results
-print("\nData:", data)
-print("Parity Bit:", parity)
+print("\nParity Bit:", parity)
 print("Transmitted Codeword:", codeword)
 
-# Receiver Side Checking
-if codeword.count('1') % 2 == 0:
+
+# Receiver Side
+
+received = input("\nEnter received codeword: ")
+
+# Error Checking
+if received.count('1') % 2 == 0:
     print("No Error Detected")
 else:
     print("Error Detected")

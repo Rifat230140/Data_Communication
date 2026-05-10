@@ -1,26 +1,40 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+# User Inputs
+Am = int(input("Enter message amplitude: "))
+Ac = int(input("Enter carrier amplitude: "))
+
 fm = int(input("Enter message frequency (Hz): "))
 fc = int(input("Enter carrier frequency (Hz): "))
 
+kp = int(input("Enter phase sensitivity: "))
+
+# Time axis
 t = np.linspace(0, 1, 2000)
 
 # Message and Carrier Signal
-message = np.sin(2 * np.pi * fm * t)
-carrier = np.sin(2 * np.pi * fc * t)
+message = Am * np.sin(2 * np.pi * fm * t)
+
+carrier = Ac * np.sin(2 * np.pi * fc * t)
 
 # AM
 am = (1 + message) * carrier
 
 # FM
 kf = 50
-fm_signal = np.sin(2 * np.pi * fc * t + kf * np.cumsum(message) / len(t))
+fm_signal = np.sin(
+    2 * np.pi * fc * t +
+    kf * np.cumsum(message) / len(t)
+)
 
 # PM
-kp = 5
-pm_signal = np.sin(2 * np.pi * fc * t + kp * message)
+pm_signal = np.sin(
+    2 * np.pi * fc * t +
+    kp * message
+)
 
+# Plotting
 plt.figure(figsize=(10, 10))
 
 plt.subplot(5, 1, 1)
@@ -54,5 +68,3 @@ plt.xlim(0, 0.2)
 
 plt.tight_layout()
 plt.show()
-
-#sample input 2 and 20

@@ -1,24 +1,55 @@
+def lrc_check(data):
+
+    lrc = ""
+
+    for col in range(len(data[0])):
+
+        ones = 0
+
+        for row in data:
+            if row[col] == '1':
+                ones += 1
+
+        if ones % 2 == 0:
+            lrc += '0'
+        else:
+            lrc += '1'
+
+    return lrc
+
+
+# Sender Side
 n = int(input("Enter number of rows: "))
 
-data = [input(f"Row {i+1}: ") for i in range(n)]
+data = []
 
-lrc = ""
+for i in range(n):
+    data.append(input("Enter row: "))
 
-for i in range(len(data[0])):
-    count = sum(row[i] == '1' for row in data)
-    lrc += '0' if count % 2 == 0 else '1'
+lrc = lrc_check(data)
 
 print("\nLRC:", lrc)
 
-# Receiver Check
-data.append(lrc)
+codeword = data + [lrc]
 
-error = False
+print("\nTransmitted Block:")
+for row in codeword:
+    print(row)
 
-for i in range(len(data[0])):
-    count = sum(row[i] == '1' for row in data)
 
-    if count % 2 != 0:
-        error = True
+# Receiver Side
+received = []
 
-print("Error Detected" if error else "No Error")
+print("\nEnter received block:")
+
+for i in range(n + 1):
+    received.append(input())
+
+check = lrc_check(received)
+
+print("Receiver LRC:", check)
+
+if check == '0' * len(received[0]):
+    print("No Error Detected")
+else:
+    print("Error Detected")
